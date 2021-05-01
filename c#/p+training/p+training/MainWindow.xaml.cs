@@ -27,8 +27,10 @@ namespace p_training
     public partial class MainWindow : Window
     {
         ViGEmClient client;
+
         IXbox360Controller vController;
-        bool mirrorFlag;
+        IXbox360Controller mirrorController;
+        IXbox360Controller macController;
 
         // Initialize DirectInput
         DirectInput directInput;
@@ -37,9 +39,11 @@ namespace p_training
         
 
         GamecubeController rController;
+        MacroController macroCon;
         
 
-        ControllerManager cMan;
+        ControllerManager virtualMan;
+        ControllerManager mirrorMan;
 
         Recording r;
 
@@ -47,7 +51,7 @@ namespace p_training
         public MainWindow()
         {
             controllerSetup();
-            r = new Recording(cMan);
+            r = new Recording(virtualMan);
 
             InitializeComponent();
         }
@@ -63,6 +67,7 @@ namespace p_training
             }
             else
             {
+                macroCon.SaveState(1);
                 r.recording = true;
                 r.Record();
             }
@@ -91,29 +96,57 @@ namespace p_training
             client = new ViGEmClient();
             vController = client.CreateXbox360Controller();
             vController.Connect();
+            mirrorController = client.CreateXbox360Controller();
+            mirrorController.Connect();
+            macController = client.CreateXbox360Controller();
+            macController.Connect();
+            macroCon = new MacroController(macController);
 
 
 
-            cMan = new ControllerManager(vController, rController);
+            virtualMan = new ControllerManager(vController, rController);
+            mirrorMan = new ControllerManager(mirrorController, rController);
+
+            mirrorMan.startMirrorInputs();
+
+
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             if (!r.recording && !r.playing)
             {
+                virtualMan.mirrorMode = false;
+                macroCon.LoadState(1);
+                Thread.Sleep(1500);
                 r.play();
             }
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            if (!r.recording && !r.playing && !cMan.mirrorMode)
+            if (!r.recording && !r.playing && !virtualMan.mirrorMode)
             {
-                cMan.startMirrorInputs();
-            } else if (!r.recording && !r.playing && cMan.mirrorMode)
+                virtualMan.startMirrorInputs();
+            } else if (!r.recording && !r.playing && virtualMan.mirrorMode)
             {
-                cMan.mirrorMode = false;
+                virtualMan.mirrorMode = false;
             }
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            //Console.WriteLine(mirrorMan.mirrorMode);
+            if (!mirrorMan.mirrorMode)
+            {
+                mirrorMan.startMirrorInputs();
+                Console.WriteLine("obama!");
+            }
+            else
+            { 
+            mirrorMan.mirrorMode = false;
+            }
+
         }
     }
 }

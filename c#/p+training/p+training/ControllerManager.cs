@@ -148,20 +148,16 @@ namespace p_training
 
         public void startMirrorInputs()
         {
+            Console.WriteLine("started mirroring!");
+            mirrorMode = true;
             BackgroundWorker worker = new BackgroundWorker();
             worker.DoWork += worker_DoWork;
-            worker.RunWorkerCompleted += worker_RunWorkerCompleted;
             worker.RunWorkerAsync();
-        }
-
-        private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            
         }
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            mirrorMode = true;
+            
             while (mirrorMode)
             {
                 setButtons(allButtons);
@@ -169,5 +165,7 @@ namespace p_training
             }
             setNoInput();
         }
+
+        
     }
 }
