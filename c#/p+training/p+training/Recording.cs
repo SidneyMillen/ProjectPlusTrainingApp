@@ -53,6 +53,7 @@ namespace p_training
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
+            
             inputs = new List<InputFrame>();
             while (recording)
             {

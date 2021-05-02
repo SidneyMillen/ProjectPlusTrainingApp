@@ -118,35 +118,48 @@ namespace p_training
             {
                 virtualMan.mirrorMode = false;
                 macroCon.LoadState(1);
-                Thread.Sleep(1500);
+                Thread.Sleep(1000);
                 r.play();
             }
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!r.recording && !r.playing && !virtualMan.mirrorMode)
+            switch (cmbPort.SelectedIndex)
             {
-                virtualMan.startMirrorInputs();
-            } else if (!r.recording && !r.playing && virtualMan.mirrorMode)
-            {
-                virtualMan.mirrorMode = false;
-            }
-        }
+                case 0:
+                    virtualMan.mirrorMode = false;
+                    if (!mirrorMan.mirrorMode)
+                    { 
+                        mirrorMan.startMirrorInputs();
+                    }
+                    break;
 
-        private void Button_Click_3(object sender, RoutedEventArgs e)
-        {
-            //Console.WriteLine(mirrorMan.mirrorMode);
-            if (!mirrorMan.mirrorMode)
-            {
-                mirrorMan.startMirrorInputs();
-                Console.WriteLine("obama!");
-            }
-            else
-            { 
-            mirrorMan.mirrorMode = false;
-            }
+                case 1:
+                    mirrorMan.mirrorMode = false;
+                    if (!r.recording && !r.playing && !virtualMan.mirrorMode)
+                    {
+                        virtualMan.startMirrorInputs();
+                    }
+                    break;
 
+                case 2:
+                    if (!r.recording && !r.playing)
+                    {
+                        if (!virtualMan.mirrorMode)
+                        {
+                            virtualMan.startMirrorInputs();
+                        }
+                        if (!mirrorMan.mirrorMode)
+                        {
+                            mirrorMan.startMirrorInputs();
+                        }
+                    }
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
 }

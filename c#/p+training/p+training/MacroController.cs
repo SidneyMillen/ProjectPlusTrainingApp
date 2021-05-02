@@ -58,7 +58,7 @@ namespace p_training
             if (num <= SaveButtons.Count)
             {
                 controller.SetButtonState(SaveButtons[num], true);
-                Thread.Sleep(20);
+                Thread.Sleep(80);
                 controller.SetButtonState(SaveButtons[num], false);
             }
             else
@@ -72,7 +72,7 @@ namespace p_training
             if (num <= LoadButtons.Count)
             {
                 controller.SetButtonState(LoadButtons[num], true);
-                Thread.Sleep(20);
+                Thread.Sleep(80);
                 controller.SetButtonState(LoadButtons[num], false);
             }
             else
