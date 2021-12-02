@@ -42,8 +42,8 @@ namespace p_training
         MacroController macroCon;
         
 
-        ControllerManager virtualMan;
-        ControllerManager mirrorMan;
+        ControllerLinker virtualMan;
+        ControllerLinker mirrorMan;
 
         Recording r;
 
@@ -104,8 +104,8 @@ namespace p_training
 
 
 
-            virtualMan = new ControllerManager(vController, rController);
-            mirrorMan = new ControllerManager(mirrorController, rController);
+            virtualMan = new ControllerLinker(vController, rController);
+            mirrorMan = new ControllerLinker(mirrorController, rController);
 
             mirrorMan.startMirrorInputs();
 

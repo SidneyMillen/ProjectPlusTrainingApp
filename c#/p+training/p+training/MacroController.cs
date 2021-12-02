@@ -22,7 +22,10 @@ using System.ComponentModel;
 
 namespace p_training
 {
-    class MacroController
+    /// <summary>
+    /// an xbox controller that knows how to translate a specific save slot to a button thats set up in dolphin to be a hotkey for that savetate
+    /// </summary>
+    public class MacroController
     {
         private IXbox360Controller controller;
         private static Dictionary<int, Xbox360Button> SaveButtons;
@@ -34,7 +37,7 @@ namespace p_training
 
             SaveButtons = new Dictionary<int, Xbox360Button>
             {
-                
+
                 { 1, Xbox360Button.Up },
                 { 2, Xbox360Button.Down },
                 { 3, Xbox360Button.Left },
@@ -53,6 +56,8 @@ namespace p_training
                 { 6, Xbox360Button.RightThumb }
             };
         }
+
+        //TODO make these run on a separate thread in case save states become fast enough
         public void SaveState(int num)
         {
             if (num <= SaveButtons.Count)

@@ -22,14 +22,20 @@ using System.ComponentModel;
 
 namespace p_training
 {
-    class Recording
+    /// <summary>
+    /// A big list of inputFrames
+    /// </summary>
+    public class Recording
     {
+
         List<InputFrame> inputs;
-        ControllerManager cMan;
+        ControllerLinker cMan;
         public bool recording;
         public bool playing;
 
-        public Recording(ControllerManager cMan)
+        JsonConverter json;
+
+        public Recording(ControllerLinker cMan)
         {
             this.cMan = cMan;
             inputs = new List<InputFrame>();
@@ -43,21 +49,23 @@ namespace p_training
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
             worker.RunWorkerAsync();
 
-            
+
         }
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            
+
         }
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            
+
             inputs = new List<InputFrame>();
+            int numframes = 0;
             while (recording)
             {
-                InputFrame input = new InputFrame(cMan.rController);
+                InputFrame input = new InputFrame(cMan.rController, numframes);
+                numframes++;
                 inputs.Add(input);
                 Thread.Sleep(50 / 3);
             }
@@ -71,12 +79,12 @@ namespace p_training
             worker2.DoWork += worker_DoWork2;
             worker2.RunWorkerCompleted += worker_RunWorkerCompleted2;
             worker2.RunWorkerAsync();
-            
+
         }
 
         private void worker_RunWorkerCompleted2(object sender, RunWorkerCompletedEventArgs e)
         {
-            
+
         }
 
         private void worker_DoWork2(object sender, DoWorkEventArgs e)
@@ -90,6 +98,11 @@ namespace p_training
             }
             cMan.setNoInput();
             playing = false;
+        }
+
+        public void writeToJson()
+        {
+            //TODO
         }
     }
 }

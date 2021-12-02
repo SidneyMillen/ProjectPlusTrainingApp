@@ -20,30 +20,41 @@ using SharpDX.DirectInput;
 
 namespace p_training
 {
-    class InputFrame
+    /// <summary>
+    /// the state of all the buttons and stick on a frame
+    /// </summary>
+    public class InputFrame
     {
         public Dictionary<Buttons, bool> buttonStates;
         public Dictionary<Axes, int> axisStates;
+        public int frameNumber;
+
         GamecubeController gamecubeController;
 
-        public InputFrame(GamecubeController gamecubeController)
+
+        public InputFrame(GamecubeController gamecubeController, int frameNumber)
         {
             this.gamecubeController = gamecubeController;
 
             buttonStates = new Dictionary<Buttons, bool>();
             axisStates = new Dictionary<Axes, int>();
 
-            foreach (Buttons b in ControllerManager.allButtons)
+            foreach (Buttons b in ControllerLinker.allButtons)
             {
                 bool state = gamecubeController.GetButtonState(b);
                 buttonStates.Add(b, state);
             }
-            
-            foreach (Axes a in ControllerManager.allAxes)
+
+            foreach (Axes a in ControllerLinker.allAxes)
             {
                 int state = gamecubeController.GetAxisState(a);
                 axisStates.Add(a, state);
             }
+
+            this.frameNumber = frameNumber;
         }
+
+
+
     }
 }

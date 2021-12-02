@@ -20,7 +20,7 @@ using SharpDX.DirectInput;
 
 namespace p_training
 {
-    class GamecubeController : Joystick
+    public class GamecubeController : Joystick
     {
         public Dictionary<Buttons, int> buttonNums;
         public GamecubeController(IntPtr nativePtr) : base(nativePtr)
@@ -82,7 +82,7 @@ namespace p_training
         
     }
 
-    enum Buttons
+    public enum Buttons
     {
         A,
         B,
@@ -98,7 +98,7 @@ namespace p_training
         RIGHT
     }
 
-    enum Axes
+    public enum Axes
     {
         X,
         Y,
