@@ -1,0 +1,5 @@
+C:\projects\ProjectPlusTrainingApp\c#\p+training\p+training\obj\Debug\net5.0-windows\p+training.csproj.AssemblyReference.cache
+C:\projects\ProjectPlusTrainingApp\c#\p+training\p+training\obj\Debug\net5.0-windows\MainWindow.g.cs
+C:\projects\ProjectPlusTrainingApp\c#\p+training\p+training\obj\Debug\net5.0-windows\App.g.cs
+C:\projects\ProjectPlusTrainingApp\c#\p+training\p+training\obj\Debug\net5.0-windows\p+training_MarkupCompile.cache
+C:\projects\ProjectPlusTrainingApp\c#\p+training\p+training\obj\Debug\net5.0-windows\p+training_MarkupCompile.lref
