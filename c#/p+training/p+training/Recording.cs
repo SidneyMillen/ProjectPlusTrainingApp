@@ -33,7 +33,7 @@ namespace p_training
         public bool recording;
         public bool playing;
 
-        JsonConverter json;
+        //JsonConverter json;
 
         public Recording(ControllerLinker cMan)
         {

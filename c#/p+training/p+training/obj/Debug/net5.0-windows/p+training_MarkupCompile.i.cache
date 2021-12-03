@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\projects\ProjectPlusTrainingApp\c#\p+training\p+training\obj\Debug\net5.0-windows\
+D:\Projects\p+training\c#\p+training\p+training\obj\Debug\net5.0-windows\
 p_training
 none
 false
 TRACE;DEBUG;NET;NET5_0;NETCOREAPP
-C:\projects\ProjectPlusTrainingApp\c#\p+training\p+training\App.xaml
+D:\Projects\p+training\c#\p+training\p+training\App.xaml
 11407045341
 
 12-179113717
-354-539837915
+354-961068593
 MainWindow.xaml;
 
-False
+True
 

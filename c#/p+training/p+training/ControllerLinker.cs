@@ -163,7 +163,7 @@ namespace p_training
                 setButtons(allButtons);
                 setAxes(allAxes);
             }
-            setNoInput();
+            //setNoInput();
         }
 
         

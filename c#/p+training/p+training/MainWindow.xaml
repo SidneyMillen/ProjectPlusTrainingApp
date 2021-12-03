@@ -7,18 +7,18 @@
         xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:local="clr-namespace:p_training"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" >
-    <Grid Background="DimGray">
+        Title="MainWindow" Height="450" Width="800" Loaded="Main_load">
+    <Grid Background="DimGray" >
 
-        <Button Content="Record" HorizontalAlignment="Left" Margin="246,184,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click" Name="btnRecord" />
-        <Button Content="Play" HorizontalAlignment="Left" Margin="430,184,0,0" VerticalAlignment="Top" Width="76" Click="Button_Click_1"/>
-        <ComboBox HorizontalAlignment="Left" Margin="82,184,0,0" VerticalAlignment="Top" Width="120" IsReadOnly="True" SelectionChanged="ComboBox_SelectionChanged" Name="cmbPort">
-            <ComboBoxItem IsSelected="True">Port 1</ComboBoxItem>
+        <Button Content="Record" HorizontalAlignment="Left" Margin="246,184,0,0" VerticalAlignment="Top" Width="75" Click="btnRecord_Click" Name="btnRecord" IsEnabled="False"/>
+        <Button Content="Play" HorizontalAlignment="Left" Margin="430,184,0,0" VerticalAlignment="Top" Width="76" Name="btnPlay" Click="btnPlay_Click" IsEnabled="False"/>
+        <ComboBox HorizontalAlignment="Left" Margin="82,184,0,0" VerticalAlignment="Top" Width="120" IsReadOnly="True" SelectionChanged="cmbPort_SelectedIndexChanged" Name="cmbPort" IsEnabled="False">
+            <ComboBoxItem>Port 1</ComboBoxItem>
             <ComboBoxItem>Port 2</ComboBoxItem>
             <ComboBoxItem>Both</ComboBoxItem>
         </ComboBox>
-        <ComboBox HorizontalAlignment="Left" Margin="82,132,0,0" VerticalAlignment="Top" Width="120"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="82,107,0,0" VerticalAlignment="Top" Height="25" Width="120"/>
-        <hc:NumericUpDown HorizontalAlignment="Left" Margin="82,130,0,0" VerticalAlignment="Top" Height="25" Width="120"/>
+        <ComboBox HorizontalAlignment="Left" Margin="82,132,0,0" VerticalAlignment="Top" Width="120" Name="cmbDevices" SelectionChanged="cmbDevices_SelectedIndexChanged"/>
+        <Button Content="Scan devices" HorizontalAlignment="Left" Margin="82,104,0,0" VerticalAlignment="Top" Height="25" Width="120" FontSize="9" Name="btnDeviceRefresh" />
+        <hc:NumericUpDown HorizontalAlignment="Left" Margin="224,104,0,0" VerticalAlignment="Top" Height="25" Width="120" Name="numSlot" IsEnabled="False"/>
     </Grid>
 </Window>

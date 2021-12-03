@@ -27,73 +27,56 @@ namespace p_training
     /// </summary>
     public partial class MainWindow : Window
     {
+        ControllerManager cMan;
+
+        /// <summary>
+        /// the gamecube controller plugged in to your computer that you play with
+        /// </summary>
+        GamecubeController rController;
+
+
+        MacroController macroCon;
+
+        //vigem is what allows us to make vitual controllers, this client allows us to do that
         ViGEmClient client;
 
+        /// <summary>
+        /// the virtal controller for player two
+        /// </summary>
         IXbox360Controller vController;
+
+        /// <summary>
+        /// the virtual controller for player one, has to go through this layer of mirroring so it can be turned on and off as need be
+        /// </summary>
         IXbox360Controller mirrorController;
+
+        /// <summary>
+        /// virtual controller used for dolphin savestates
+        /// </summary>
         IXbox360Controller macController;
 
-        // Initialize DirectInput
-        DirectInput directInput;
 
-        // Find all joysticks connected to the system
-        
+        Recording[] recordings;
 
-        GamecubeController rController;
-        MacroController macroCon;
-        
+        int savestateSlot = 1;
 
-        ControllerLinker virtualMan;
-        ControllerLinker mirrorMan;
+        /// <summary>
+        ///  a list of all the controllers plugged into the machine
+        /// </summary>
+        IList<DeviceInstance> devices;
 
-        Recording r;
+        const int NUM_SAVESLOTS = 6;
+
 
 
         public MainWindow()
         {
-            controllerSetup();
-            r = new Recording(virtualMan);
+            recordings = new Recording[NUM_SAVESLOTS];
 
-            InitializeComponent();
-        }
+            cMan = new ControllerManager();
 
 
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (r.recording)
-            {
-                r.recording = false;
-                
-            }
-            else
-            {
-                macroCon.SaveState(1);
-                r.recording = true;
-                r.Record();
-            }
-
-        }
-
-       
-
-        private void controllerSetup()
-        {
-            directInput = new DirectInput();
-            IList<DeviceInstance> connectedJoysticks = new List<DeviceInstance>();
-            foreach (var deviceInstance in directInput.GetDevices(DeviceType.FirstPerson, DeviceEnumerationFlags.AllDevices))
-            {
-                connectedJoysticks.Add(deviceInstance);
-            }
-            rController = new GamecubeController(directInput, connectedJoysticks[0].InstanceGuid);
-            foreach (var a in connectedJoysticks)
-            {
-                Console.WriteLine(a.InstanceName + " " + a.Type);
-
-            }
-            rController.Acquire();
-
-
+            //this section initializes the vigem client and creates 3 digital controllers: virtual, mirror, and macro
             client = new ViGEmClient();
             vController = client.CreateXbox360Controller();
             vController.Connect();
@@ -101,65 +84,135 @@ namespace p_training
             mirrorController.Connect();
             macController = client.CreateXbox360Controller();
             macController.Connect();
+
             macroCon = new MacroController(macController);
 
 
 
-            virtualMan = new ControllerLinker(vController, rController);
-            mirrorMan = new ControllerLinker(mirrorController, rController);
-
-            mirrorMan.startMirrorInputs();
-
-
+            InitializeComponent();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void findDevices()
         {
-            if (!r.recording && !r.playing)
+            cmbDevices.Items.Clear();
+            //sets devices to a list of all the controllers plugged into the machine
+            devices = cMan.GetDevices();
+
+            //set the devices combo box to show devices
+            devices.ToList<DeviceInstance>().ForEach(Device => cmbDevices.Items.Add(Device));
+        }
+
+
+        private void btnRecord_Click(object sender, EventArgs e)
+        {
+            if (recordings[(int)numSlot.Value].recording)
             {
-                virtualMan.mirrorMode = false;
-                macroCon.LoadState(1);
-                Thread.Sleep(1000);
-                r.play();
+                recordings[(int)numSlot.Value].recording = false;
+
+            }
+            else
+            {
+                macroCon.SaveState(savestateSlot);
+                recordings[(int)numSlot.Value].recording = true;
+                recordings[(int)numSlot.Value].Record();
             }
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void btnPlay_Click(object sender, EventArgs e)
+        {
+            if (!recordings[(int)numSlot.Value].recording && !recordings[(int)numSlot.Value].playing)
+            {
+                cMan.virtualLink.mirrorMode = false;
+                macroCon.LoadState(savestateSlot);
+                //this is to wait until it finishes loading the save state, if save states get faster this can be reduced, might also vary by machine
+                //TODO add to settings so you can change the sleep time
+                Thread.Sleep(1000);
+                recordings[(int)numSlot.Value].play();
+            }
+        }
+
+
+
+      
+
+
+
+        private void cmbPort_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (cmbPort.SelectedIndex)
             {
                 case 0:
-                    virtualMan.mirrorMode = false;
-                    if (!mirrorMan.mirrorMode)
-                    { 
-                        mirrorMan.startMirrorInputs();
+                    cMan.virtualLink.mirrorMode = false;
+                    if (!cMan.mirrorLink.mirrorMode)
+                    {
+                        cMan.mirrorLink.startMirrorInputs();
                     }
                     break;
 
                 case 1:
-                    mirrorMan.mirrorMode = false;
-                    if (!r.recording && !r.playing && !virtualMan.mirrorMode)
+                    cMan.mirrorLink.mirrorMode = false;
+                    if (!recordings[(int)numSlot.Value].recording && !recordings[(int)numSlot.Value].playing && !cMan.virtualLink.mirrorMode)
                     {
-                        virtualMan.startMirrorInputs();
+                        cMan.virtualLink.startMirrorInputs();
                     }
                     break;
 
                 case 2:
-                    if (!r.recording && !r.playing)
+                    if (!recordings[(int)numSlot.Value].recording && !recordings[(int)numSlot.Value].playing)
                     {
-                        if (!virtualMan.mirrorMode)
+                        if (!cMan.virtualLink.mirrorMode)
                         {
-                            virtualMan.startMirrorInputs();
+                            cMan.virtualLink.startMirrorInputs();
                         }
-                        if (!mirrorMan.mirrorMode)
+                        if (!cMan.mirrorLink.mirrorMode)
                         {
-                            mirrorMan.startMirrorInputs();
+                            cMan.mirrorLink.startMirrorInputs();
                         }
                     }
                     break;
 
                 default:
                     break;
+            }
+        }
+
+        private void cmbDevices_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+
+            if (cmbDevices.SelectedItem != null)
+            {
+                EnableControls();
+
+                cMan.SetController(devices[cmbDevices.SelectedIndex]);
+                cMan.ControllerSetup(vController, mirrorController);
+
+
+                for (int i = 0; i < NUM_SAVESLOTS; i++)
+                {
+                    recordings[i] = new Recording(cMan.virtualLink);
+                }
+
+                cmbPort.SelectedIndex = 0;
+            }
+        }
+        private void EnableControls()
+        {
+            btnPlay.IsEnabled = true;
+            btnRecord.IsEnabled = true;
+            cmbPort.IsEnabled = true;
+            numSlot.IsEnabled = true;
+        }
+
+
+        private void Main_load(object sender, RoutedEventArgs e)
+        {
+            findDevices();
+
+            if (cmbDevices.SelectedItem != null)
+            {
+                EnableControls();
+                cmbPort.SelectedIndex = 0;
             }
         }
     }

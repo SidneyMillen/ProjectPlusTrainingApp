@@ -12,8 +12,9 @@
       }
     ],
     "additionalProbingPaths": [
-      "C:\\Users\\natem\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\natem\\.nuget\\packages"
+      "C:\\Users\\natem.DESKTOP-GN42898\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\natem.DESKTOP-GN42898\\.nuget\\packages",
+      "D:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
     ],
     "configProperties": {
       "Microsoft.NETCore.DotNetHostPolicy.SetAppPaths": true

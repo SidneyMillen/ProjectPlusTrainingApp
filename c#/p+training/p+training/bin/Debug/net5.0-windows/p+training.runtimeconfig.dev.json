@@ -1,0 +1,9 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\natem.DESKTOP-GN42898\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\natem.DESKTOP-GN42898\\.nuget\\packages",
+      "D:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+    ]
+  }
+}
