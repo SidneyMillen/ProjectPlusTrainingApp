@@ -8410,24 +8410,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\natem.DESKTOP-GN42898\\.nuget\\packages\\": {},
-    "D:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\natem\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\p+training\\c#\\p+training\\p+training\\p+training.csproj",
+      "projectUniqueName": "C:\\projects\\ProjectPlusTrainingApp\\c#\\p+training\\p+training\\p+training.csproj",
       "projectName": "p+training",
-      "projectPath": "D:\\Projects\\p+training\\c#\\p+training\\p+training\\p+training.csproj",
-      "packagesPath": "C:\\Users\\natem.DESKTOP-GN42898\\.nuget\\packages\\",
-      "outputPath": "D:\\Projects\\p+training\\c#\\p+training\\p+training\\obj\\",
+      "projectPath": "C:\\projects\\ProjectPlusTrainingApp\\c#\\p+training\\p+training\\p+training.csproj",
+      "packagesPath": "C:\\Users\\natem\\.nuget\\packages\\",
+      "outputPath": "C:\\projects\\ProjectPlusTrainingApp\\c#\\p+training\\p+training\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "D:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\natem.DESKTOP-GN42898\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "D:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\natem\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net5.0-windows7.0"
@@ -8520,24 +8516,6 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[5.0.0, 5.0.0]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[5.0.12, 5.0.12]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[5.0.0, 5.0.0]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[5.0.0, 5.0.0]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -8549,7 +8527,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "D:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   },

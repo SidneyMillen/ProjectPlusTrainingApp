@@ -18,7 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SharpDX.DirectInput;
 using System.ComponentModel;
-
+using Newtonsoft.Json;
 
 namespace p_training
 {
@@ -61,11 +61,9 @@ namespace p_training
         {
 
             inputs = new List<InputFrame>();
-            int numframes = 0;
             while (recording)
             {
-                InputFrame input = new InputFrame(cMan.rController, numframes);
-                numframes++;
+                InputFrame input = new InputFrame(cMan.rController);
                 inputs.Add(input);
                 Thread.Sleep(50 / 3);
             }
@@ -100,9 +98,14 @@ namespace p_training
             playing = false;
         }
 
-        public void writeToJson()
+        public string getJson()
         {
-            //TODO
+            return JsonConvert.SerializeObject(inputs);
+        }
+
+        public void loadJson(string json)
+        {
+            inputs = JsonConvert.DeserializeObject<List<InputFrame>>(json);
         }
     }
 }

@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using SharpDX.DirectInput;
 using System.ComponentModel;
 using Xceed.Wpf.Toolkit;
+using System.IO;
 
 namespace p_training
 {
@@ -105,29 +106,29 @@ namespace p_training
 
         private void btnRecord_Click(object sender, EventArgs e)
         {
-            if (recordings[(int)numSlot.Value].recording)
+            if (recordings[(int)numSlot.Value-1].recording)
             {
-                recordings[(int)numSlot.Value].recording = false;
+                recordings[(int)numSlot.Value-1].recording = false;
 
             }
             else
             {
                 macroCon.SaveState(savestateSlot);
-                recordings[(int)numSlot.Value].recording = true;
-                recordings[(int)numSlot.Value].Record();
+                recordings[(int)numSlot.Value-1].recording = true;
+                recordings[(int)numSlot.Value-1].Record();
             }
         }
 
         private void btnPlay_Click(object sender, EventArgs e)
         {
-            if (!recordings[(int)numSlot.Value].recording && !recordings[(int)numSlot.Value].playing)
+            if (!recordings[(int)numSlot.Value-1].recording && !recordings[(int)numSlot.Value-1].playing)
             {
                 cMan.virtualLink.mirrorMode = false;
                 macroCon.LoadState(savestateSlot);
                 //this is to wait until it finishes loading the save state, if save states get faster this can be reduced, might also vary by machine
                 //TODO add to settings so you can change the sleep time
                 Thread.Sleep(1000);
-                recordings[(int)numSlot.Value].play();
+                recordings[(int)numSlot.Value-1].play();
             }
         }
 
@@ -151,14 +152,14 @@ namespace p_training
 
                 case 1:
                     cMan.mirrorLink.mirrorMode = false;
-                    if (!recordings[(int)numSlot.Value].recording && !recordings[(int)numSlot.Value].playing && !cMan.virtualLink.mirrorMode)
+                    if (!recordings[(int)numSlot.Value-1].recording && !recordings[(int)numSlot.Value-1].playing && !cMan.virtualLink.mirrorMode)
                     {
                         cMan.virtualLink.startMirrorInputs();
                     }
                     break;
 
                 case 2:
-                    if (!recordings[(int)numSlot.Value].recording && !recordings[(int)numSlot.Value].playing)
+                    if (!recordings[(int)numSlot.Value-1].recording && !recordings[(int)numSlot.Value-1].playing)
                     {
                         if (!cMan.virtualLink.mirrorMode)
                         {
@@ -202,6 +203,7 @@ namespace p_training
             btnRecord.IsEnabled = true;
             cmbPort.IsEnabled = true;
             numSlot.IsEnabled = true;
+            btnSaveAs.IsEnabled= true;
         }
 
 
@@ -213,6 +215,63 @@ namespace p_training
             {
                 EnableControls();
                 cmbPort.SelectedIndex = 0;
+            }
+        }
+
+        private void btnRefreshDevices_Click(object sender, RoutedEventArgs e)
+        {
+            findDevices();
+        }
+
+        private void btnSaveAs_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "Recording"; // Default file name
+            dlg.DefaultExt = ".json"; // Default file extension
+            dlg.Filter = "JSON files (.json)|*.json"; // Filter files by extension
+
+            // Show save file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process save file dialog box results
+            if (result == true)
+            {
+                // Save document
+                File.WriteAllText(dlg.FileName, recordings[(int)numSlot.Value-1].getJson());
+
+
+            }
+
+
+        }
+
+        private void numSlot_ValueChanged(object sender, HandyControl.Data.FunctionEventArgs<double> e)
+        {
+            if (numSlot.Value > NUM_SAVESLOTS)
+            {
+                numSlot.Value = NUM_SAVESLOTS ;
+            }
+            else if (numSlot.Value <= 0)
+            {
+                numSlot.Value = 1;
+            }
+        }
+
+        private void btnLoad_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            dlg.DefaultExt = ".json";
+            dlg.Filter = "JSON Files (.json)|*.json";
+
+            Nullable<bool> result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                // Open document 
+                string filename = dlg.FileName;
+                string json = File.ReadAllText(filename);
+                recordings[(int)numSlot.Value - 1].loadJson(json);
             }
         }
     }

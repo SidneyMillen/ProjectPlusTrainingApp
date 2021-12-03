@@ -27,12 +27,11 @@ namespace p_training
     {
         public Dictionary<Buttons, bool> buttonStates;
         public Dictionary<Axes, int> axisStates;
-        public int frameNumber;
 
         GamecubeController gamecubeController;
 
 
-        public InputFrame(GamecubeController gamecubeController, int frameNumber)
+        public InputFrame(GamecubeController gamecubeController)
         {
             this.gamecubeController = gamecubeController;
 
@@ -50,8 +49,6 @@ namespace p_training
                 int state = gamecubeController.GetAxisState(a);
                 axisStates.Add(a, state);
             }
-
-            this.frameNumber = frameNumber;
         }
 
 

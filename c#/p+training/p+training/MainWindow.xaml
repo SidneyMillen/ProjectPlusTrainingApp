@@ -18,7 +18,9 @@
             <ComboBoxItem>Both</ComboBoxItem>
         </ComboBox>
         <ComboBox HorizontalAlignment="Left" Margin="82,132,0,0" VerticalAlignment="Top" Width="120" Name="cmbDevices" SelectionChanged="cmbDevices_SelectedIndexChanged"/>
-        <Button Content="Scan devices" HorizontalAlignment="Left" Margin="82,104,0,0" VerticalAlignment="Top" Height="25" Width="120" FontSize="9" Name="btnDeviceRefresh" />
-        <hc:NumericUpDown HorizontalAlignment="Left" Margin="224,104,0,0" VerticalAlignment="Top" Height="25" Width="120" Name="numSlot" IsEnabled="False"/>
+        <Button Content="Scan devices" HorizontalAlignment="Left" Margin="82,104,0,0" VerticalAlignment="Top" Height="25" Width="120" FontSize="9" Name="btnDeviceRefresh" Click="btnRefreshDevices_Click" />
+        <hc:NumericUpDown HorizontalAlignment="Left" Margin="224,104,0,0" VerticalAlignment="Top" Height="25" Width="120" Name="numSlot" IsEnabled="False" ValueChanged="numSlot_ValueChanged" Value="1"/>
+        <Button Content="save recording as" HorizontalAlignment="Left" Margin="226,139,0,0" VerticalAlignment="Top" Name="btnSaveAs" Click="btnSaveAs_Click" IsEnabled="False"/>
+        <Button Content="Load recording" HorizontalAlignment="Left" Margin="345,139,0,0" VerticalAlignment="Top" IsEnabled="false" Name="btnLoad" Click="btnLoad_Click"/>
     </Grid>
 </Window>
